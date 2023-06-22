@@ -21,7 +21,10 @@ const Home = () => {
     await apiClient.board.$post({ body: { x, y } });
   };
   useEffect(() => {
-    fetchBoard();
+    const cancelId = setInterval(fetchBoard, 500);
+    return () => {
+      clearInterval(cancelId);
+    };
   }, []);
 
   if (!board || !user) return <Loading visible />;
